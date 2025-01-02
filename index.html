@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rating Star - Semantic UI</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css">
+    <style>
+        body {
+            margin: 20px;
+            font-family: Arial, sans-serif;
+        }
+        #ratingList {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1 class="ui header">Berikan Rating Anda</h1>
+    <p>Silakan pilih jumlah bintang:</p>
+
+    <!-- Rating Star -->
+    <div class="ui massive star rating" id="userRating" data-max-rating="5"></div>
+
+    <!-- Tombol Submit -->
+    <button class="ui primary button" onclick="submitRating()">Kirim Rating</button>
+
+    <!-- Daftar Hasil Rating -->
+    <h2 class="ui header" style="margin-top: 40px;">Hasil Rating Pengguna</h2>
+    <div id="ratingList">
+        <p>Belum ada rating.</p>
+    </div>
+
+    <!-- Tambahkan Semantic UI dan jQuery -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.js"></script>
+
+    <script>
+        // Inisialisasi Semantic UI Rating
+        $('.ui.rating').rating();
+
+        // Fungsi untuk menyimpan dan menampilkan rating
+        const ratings = []; // Array untuk menyimpan hasil rating
+
+        function submitRating() {
+            // Ambil nilai rating dari Semantic UI
+            const rating = $('#userRating').rating('get rating');
+
+            if (!rating) {
+                alert('Silakan pilih rating sebelum mengirim!');
+                return;
+            }
+
+            // Simpan rating ke array
+            ratings.push(rating);
+
+            // Perbarui tampilan daftar rating
+            updateRatingList();
+        }
+
+        function updateRatingList() {
+            const ratingList = document.getElementById('ratingList');
+
+            // Hapus konten sebelumnya
+            ratingList.innerHTML = '';
+
+            if (ratings.length === 0) {
+                ratingList.innerHTML = '<p>Belum ada rating.</p>';
+                return;
+            }
+
+            // Tampilkan semua rating
+            ratings.forEach((rating, index) => {
+                const item = document.createElement('p');
+                item.textContent = `Rating ke-${index + 1}: ${rating}/5`;
+                ratingList.appendChild(item);
+            });
+        }
+    </script>
+</body>
+</html>
